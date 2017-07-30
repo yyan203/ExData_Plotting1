@@ -1,0 +1,11 @@
+setwd("~/Desktop/CS_and_Software/Coursera_data_science/HW/4_1/exdata%2Fdata%2Fhousehold_power_consumption/initial_data")
+library(tidyverse)
+origin <- read_delim("household_power_consumption.txt", ";", col_names=TRUE, na=c("?", "NA"), quoted_na = TRUE,
+                     col_types = "ctnnnnnnn")
+origin$Date <- as.Date(origin$Date, "%d/%m/%Y")
+subdata <- filter(origin, Date >= "2007-02-01" & Date <= "2007-02-02")
+library(lubridate)
+subdata$ntime <- as.POSIXct(paste(subdata$Date, subdata$Time), format="%Y-%m-%d %H:%M:%S")
+png(filename="plot2.png")
+plot(subdata$ntime, subdata$Global_active_power, type="l", xlab="", ylab="Global Active Power (kilowatts)")
+dev.off()
